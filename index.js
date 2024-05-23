@@ -40,7 +40,7 @@ app.post("/usuarios/novo", async (req, res) => {
   res.send("Usuário inserido: " + usuario.id)
 });
 
-app.listen(8000);
+app.listen(3000);
 
 conn
   .sync()
