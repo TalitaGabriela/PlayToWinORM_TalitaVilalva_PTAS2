@@ -22,7 +22,7 @@ app.use(express.json());
 
 const Usuario = require("./models/Usuario");
 
-app.get("/usuarios/novo", (req,res) => {
+app.get("/", (req,res) => {
   res.render("home");
 });
 
@@ -30,10 +30,18 @@ app.get("/usuarios/novo", (req, res) => {
   res.render("formUsuario");
 });
 
+app.get("/usuarios", async (req, res) => {
+  const usuarios = await Usuario.findAll({
+    raw:true });
+
+  res.render("usuarios",{usuarios});
+});
+
 app.post("/usuarios/novo", async (req, res) => {
   const nickname = req.body.nickname;
   const nome = req.body.nome;
 
+  
   const dadosUsuario = {
     nickname,
     nome,
