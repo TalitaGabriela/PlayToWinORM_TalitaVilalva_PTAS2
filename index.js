@@ -24,7 +24,7 @@ app.use(express.json());
 const Usuario = require("./models/Usuario");
 
 app.get("/usuarios/novo", (req, res) => {
-  res.sendFile(`${__dirname}/views/formUsuario.html`)
+  res.render("formUsuario")
 })
 
 app.post("/usuarios/novo", async (req, res) => {
