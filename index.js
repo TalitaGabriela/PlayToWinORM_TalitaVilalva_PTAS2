@@ -20,12 +20,15 @@ app.use(
 
 app.use(express.json());
 
-
 const Usuario = require("./models/Usuario");
 
+app.get("/usuarios/novo", (req,res) => {
+  res.render("home");
+});
+
 app.get("/usuarios/novo", (req, res) => {
-  res.render("formUsuario")
-})
+  res.render("formUsuario");
+});
 
 app.post("/usuarios/novo", async (req, res) => {
   const nickname = req.body.nickname;
