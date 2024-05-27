@@ -63,6 +63,24 @@ app.get("/usuarios/:id/update" , (req,res) =>{
   //});
 });
 
+app.post("usuario/:id/updade", async(req,res) => {
+  const id = parseInt(req.params.id);
+
+  const dadosUsuario = {
+    nickname : req.body.nickname,
+    nome : req.body.nome,
+  };
+
+  const retorno = await Usuario.update(dadosUsuario,{where: {id:id}});
+
+  if (retorno > 0) {
+    res.redirect("/usuarios");
+  }else {
+    res.send("Erro ao atualizar usuário");
+  }
+
+});
+
 app.listen(3000,() => {
   console.log("O servidor está rodando na porta 3000.")
 });
