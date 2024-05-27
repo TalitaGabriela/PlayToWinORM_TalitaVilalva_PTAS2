@@ -48,10 +48,24 @@ app.post("/usuarios/novo", async (req, res) => {
   };
 
   const usuario = await Usuario.create(dadosUsuario);
-  res.send("Usuário inserido: " + usuario.id)
+  res.send("Usuário inserido: " + usuario.id);
 });
 
-app.listen(3000);
+app.get("/usuarios/:id/update" , (req,res) =>{
+  const id = parseInt(req.params.id);
+  const usuario = Usuario.findByPk(id, ({raw:true}));
+
+  res.render("formUsuario", {usuario});
+
+  //const usuario = Usuario.findOne({
+   // where: {id: id},
+    //raw: true,
+  //});
+});
+
+app.listen(3000,() => {
+  console.log("O servidor está rodando na porta 3000.")
+});
 
 conn
   .sync()
