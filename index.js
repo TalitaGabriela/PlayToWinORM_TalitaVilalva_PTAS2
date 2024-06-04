@@ -1,3 +1,7 @@
+
+/////USUARIOS/////
+
+
 // Importaçõoes dos módulos
 require("dotenv").config();
 const conn = require("./db/conn");
@@ -87,6 +91,75 @@ app.post("/usuarios/:id/delete", async (req, res) => {
     res.redirect("/usuarios");
   } else {
     res.send("Erro ao excluir usuário");
+  }
+});
+
+
+/////JOGOS/////
+
+const Jogo = require("./models/Jogo");
+
+app.get("/jogos", async (req, res) => {
+  const jogos = await Jogo.findAll({
+    raw: true
+  });
+  res.render("jogos", { jogos });
+});
+
+app.get("/jogos/novo", (req, res) => {
+  res.render("formJogos");
+});
+
+app.post("/jogos/novo", async (req, res) => {
+  const dadosJogo = {
+    titulo: req.body.titulo,
+    preco: req.body.preco,
+  };
+
+  const jogo = await Jogo.create(dadosJogo);
+  res.send("Jogo inserido: " + jogo.id);
+});
+
+app.get("/jogos/:id/update",async (req, res) => {
+  const id = parseInt(req.params.id);
+  const jogo = await Jogo.findByPk(id, { raw: true });
+
+  res.render("formJogos", { jogo });
+
+  //const jogo = Jogo.findOne({
+  // where: {id: id},
+  //raw: true,
+  //});
+});
+
+app.post("/jogos/:id/update", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const dadosJogo = {
+    titulo: req.body.titulo,
+    preco: req.body.preco,
+  };
+
+  const retorno = await Jogo.update(dadosJogo, {
+     where: { id: id }, 
+    });
+
+  if (retorno > 0) {
+    res.redirect("/jogos");
+  } else {
+    res.send("Erro ao atualizar jogo");
+  }
+
+});
+
+app.post("/jogos/:id/delete", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const retorno = await Jogo.destroy({ where: { id: id } });
+
+  if (retorno > 0) {
+    res.redirect("/jogos");
+  } else {
+    res.send("Erro ao excluir jogo");
   }
 });
 
