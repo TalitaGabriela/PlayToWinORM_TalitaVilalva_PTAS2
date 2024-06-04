@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+const Usuario = require("./models/Usuario");
 
 app.get("/usuarios", async (req, res) => {
   const usuarios = await Usuario.findAll({
@@ -31,8 +32,6 @@ app.get("/usuarios", async (req, res) => {
   });
   res.render("usuarios", { usuarios });
 });
-
-const Usuario = require("./models/Usuario");
 
 app.get("/usuarios/novo", (req, res) => {
   res.render("formUsuario");
@@ -60,7 +59,7 @@ app.get("/usuarios/:id/update",async (req, res) => {
   //});
 });
 
-app.post("usuarios/:id/update", async (req, res) => {
+app.post("/usuarios/:id/update", async (req, res) => {
   const id = parseInt(req.params.id);
 
   const dadosUsuario = {
@@ -79,6 +78,19 @@ app.post("usuarios/:id/update", async (req, res) => {
   }
 
 });
+
+app.post("/usuarios/:id/delete", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const retorno = await Usuario.destroy({ where: { id: id } });
+
+  if (retorno > 0) {
+    res.redirect("/usuarios");
+  } else {
+    res.send("Erro ao excluir usuário");
+  }
+});
+
+
 
 app.listen(3000, () => {
   console.log("O servidor está rodando na porta 3000.")
