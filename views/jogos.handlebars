@@ -5,12 +5,14 @@
    <tr>
     <td>Id:</td>
     <td>Titulo:</td>
+    <td>Descrição:</td>
     <td>Preço:</td>
    </tr>
    {{#each jogos}}
    <tr>
     <td>{{this.id}}</td>
     <td>{{this.titulo}}</td>
+    <td>{{this.descricao}}</td>
     <td>{{this.preco}},00</td>
     <td>
       <a href="/jogos/{{this.id}}/update">Atualizar Jogos.</a>

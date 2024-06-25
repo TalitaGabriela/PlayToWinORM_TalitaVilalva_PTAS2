@@ -6,6 +6,10 @@ const Jogo = conn.define("Jogo", {
         type: DataTypes.STRING,
         required: true,
     },
+    descricao: {
+        type: DataTypes.STRING,
+        required: true,
+    },
     preco: {
         type: DataTypes.STRING,
         required: true,

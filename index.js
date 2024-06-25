@@ -113,6 +113,7 @@ app.get("/jogos/novo", (req, res) => {
 app.post("/jogos/novo", async (req, res) => {
   const dadosJogo = {
     titulo: req.body.titulo,
+    descricao: req.body.descricao,
     preco: req.body.preco,
   };
 
@@ -137,6 +138,7 @@ app.post("/jogos/:id/update", async (req, res) => {
 
   const dadosJogo = {
     titulo: req.body.titulo,
+    descricao: req.body.descricao,
     preco: req.body.preco,
   };
 
