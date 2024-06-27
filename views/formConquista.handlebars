@@ -1,0 +1,25 @@
+const db = require("../db/conn");
+const { DataTypes } = require("sequelize");
+const Jogo = require("../models/Jogo");
+
+const Conquista = db.define(
+  "Conquista",
+  {
+    titulo: {
+        type: DataTypes.VARCHAR,
+        required: true,
+    },
+    descricao: {
+        type: DataTypes.VARCHAR,
+        required: true,
+    },
+  },
+  {
+    tableName: "Conquista",
+  }
+);
+
+Conquista.belongsTo(Jogo);
+Jogo.hasMany(Conquista);
+
+module.exports = Conquista;

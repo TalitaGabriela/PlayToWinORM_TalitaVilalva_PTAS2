@@ -1,15 +1,15 @@
 const conn = require ("../db/conn");
 const { DataTypes } = require("sequelize");
 
-const Usuario = conn.define("Usuario", {
-    nickname: {
+const Conquista = conn.define("Conquista", {
+    titulo: {
         type: DataTypes.VARCHAR,
         required: true,
     },
-    nome: {
+    descricao: {
         type: DataTypes.VARCHAR,
         required: true,
     },
 });
 
-module.exports = Usuario;
+module.exports = Conquista;

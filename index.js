@@ -1,12 +1,16 @@
-
-/////USUARIOS/////
-
-
 // Importaçõoes dos módulos
 require("dotenv").config();
 const conn = require("./db/conn");
 const express = require("express");
 const exphbs = require("express-handlebars");
+
+const Usuario = require("./models/Usuario");
+const Jogo = require("./models/Jogo");
+const Conquista = require("./models/Conquista");
+
+Jogo.belongsToMany(Usuario, { through: "aquisicoes" });
+Usuario.belongsToMany(Jogo, { through: "aquisicoes" });
+
 
 // Instanciação do servidor
 const app = express();
@@ -28,7 +32,7 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-const Usuario = require("./models/Usuario");
+//USUÁRIOS//
 
 app.get("/usuarios", async (req, res) => {
   const usuarios = await Usuario.findAll({
@@ -95,9 +99,7 @@ app.post("/usuarios/:id/delete", async (req, res) => {
 });
 
 
-/////JOGOS/////
-
-const Jogo = require("./models/Jogo");
+//JOGOS//
 
 app.get("/jogos", async (req, res) => {
   const jogos = await Jogo.findAll({
@@ -107,7 +109,7 @@ app.get("/jogos", async (req, res) => {
 });
 
 app.get("/jogos/novo", (req, res) => {
-  res.render("formJogos");
+  res.render("formJogo");
 });
 
 app.post("/jogos/novo", async (req, res) => {
@@ -125,7 +127,7 @@ app.get("/jogos/:id/update",async (req, res) => {
   const id = parseInt(req.params.id);
   const jogo = await Jogo.findByPk(id, { raw: true });
 
-  res.render("formJogos", { jogo });
+  res.render("formJogo", { jogo });
 
   //const jogo = Jogo.findOne({
   // where: {id: id},
@@ -163,6 +165,43 @@ app.post("/jogos/:id/delete", async (req, res) => {
   } else {
     res.send("Erro ao excluir jogo");
   }
+});
+
+//CONQUISTAS//
+
+app.get("/jogos/:id/conquistas", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const jogo = await Jogo.findByPk(id, { raw: true });
+
+  const conquistas = await Conquista.findAll({
+    raw: true,
+    where: { JogoId: id },
+  });
+
+  res.render("conquistas.handlebars", { jogo, conquistas });
+});
+
+//Formulário de cadastro de cartão
+app.get("/jogos/:id/novaConquista", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const jogo = await Jogo.findByPk(id, { raw: true });
+
+  res.render("formConquista", { jogo });
+});
+
+//Cadastro de cartão
+app.post("/jogos/:id/novaConquista", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const dadosConquista = {
+    titulo: req.body.titulo,
+    descricao: req.body.descricao,
+    JogoId: id,
+  };
+
+  await Conquista.create(dadosConquista);
+
+  res.redirect(`/jogos/${id}/conquistas`);
 });
 
 
