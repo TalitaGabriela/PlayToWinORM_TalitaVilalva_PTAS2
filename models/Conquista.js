@@ -12,4 +12,7 @@ const Conquista = conn.define("Conquista", {
     },
 });
 
+Conquista.belongsTo(Jogo);
+Jogo.hasMany(Conquista);
+
 module.exports = Conquista;

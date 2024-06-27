@@ -1,25 +1,30 @@
-const db = require("../db/conn");
-const { DataTypes } = require("sequelize");
-const Jogo = require("../models/Jogo");
+    {{#if conquista}}
 
-const Conquista = db.define(
-  "Conquista",
-  {
-    titulo: {
-        type: DataTypes.VARCHAR,
-        required: true,
-    },
-    descricao: {
-        type: DataTypes.VARCHAR,
-        required: true,
-    },
-  },
-  {
-    tableName: "Conquista",
-  }
-);
+    <h1>Atualizar Conquista de {{jogo.titulo}}</h1>
 
-Conquista.belongsTo(Jogo);
-Jogo.hasMany(Conquista);
+    <form action="/jogo/{{jogoId}}/conquista/{{conquista.id}}/update" method="post">
 
-module.exports = Conquista;
+        {{else}}
+
+        <h1>Cadastrar Conquista de {{jogo.titulo}}</h1>
+
+        <form action="/jogo/{{jogo.id}}/conquista/novo" method="post">
+        
+            {{/if}}
+
+            <div>
+                <label for="titulo">Título</label>
+                <input type="text" name="titulo" id="titulo" value="{{conquista.titulo}}" />
+            </div>
+
+            <div>
+                <label for="descricao">Descrição</label>
+                <input type="text" name="descricao" id="descricao" value="{{conquista.descricao}}" />
+            </div>
+
+            {{#if conquista}}
+            <input type="submit" value="Salvar" />
+            {{else}}
+            <input type="submit" value="Cadastrar" />
+            {{/if}}
+        </form>
