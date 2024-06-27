@@ -181,7 +181,6 @@ app.get("/jogos/:id/conquistas", async (req, res) => {
   res.render("conquistas.handlebars", { jogo, conquistas });
 });
 
-//Formulário de cadastro de cartão
 app.get("/jogos/:id/novaConquista", async (req, res) => {
   const id = parseInt(req.params.id);
   const jogo = await Jogo.findByPk(id, { raw: true });
@@ -189,11 +188,10 @@ app.get("/jogos/:id/novaConquista", async (req, res) => {
   res.render("formConquista", { jogo });
 });
 
-//Cadastro de cartão
-app.post("/jogos/:id/novaConquista", async (req, res) => {
+app.post("/jogos/:id/conquistas/novaConquista", async (req, res) => {
   const id = parseInt(req.params.id);
 
-  const dadosConquista = {
+  const dadosConquista = {  
     titulo: req.body.titulo,
     descricao: req.body.descricao,
     JogoId: id,
@@ -202,6 +200,49 @@ app.post("/jogos/:id/novaConquista", async (req, res) => {
   await Conquista.create(dadosConquista);
 
   res.redirect(`/jogos/${id}/conquistas`);
+});
+
+app.get("/conquistas/:id/update",async (req, res) => {
+  const id = parseInt(req.params.id);
+  const conquista = await Conquista.findByPk(id, { raw: true });
+
+  res.render("formConquista", { conquista });
+
+  //const conquista = Conquista.findOne({
+  // where: {id: id},
+  //raw: true,
+  //});
+});
+
+app.post("/conquistas/:id/update", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const dadosConquista = {
+    titulo: req.body.titulo,
+    descricao: req.body.descricao,
+  };
+
+  const retorno = await Conquista.update(dadosConquista, {
+     where: { id: id }, 
+    });
+
+  if (retorno > 0) {
+    res.redirect("/conquistas");
+  } else {
+    res.send("Erro ao atualizar conquista");
+  }
+
+});
+
+app.post("/conquistas/:id/delete", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const retorno = await Conquista.destroy({ where: { id: id } });
+
+  if (retorno > 0) {
+    res.redirect("/conquistas");
+  } else {
+    res.send("Erro ao excluir jogo");
+  }
 });
 
 

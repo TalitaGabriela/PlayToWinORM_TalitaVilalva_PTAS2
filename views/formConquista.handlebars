@@ -2,13 +2,13 @@
 
     <h1>Atualizar Conquista de {{jogo.titulo}}</h1>
 
-    <form action="/jogo/{{jogoId}}/conquista/{{conquista.id}}/update" method="post">
+    <form action="/jogo/{{jogoId}}/conquistas/{{conquista.id}}/update" method="post">
 
         {{else}}
 
         <h1>Cadastrar Conquista de {{jogo.titulo}}</h1>
 
-        <form action="/jogo/{{jogo.id}}/conquista/novo" method="post">
+        <form action="/jogos/{{jogo.id}}/conquistas/novaConquista" method="post">
         
             {{/if}}
 

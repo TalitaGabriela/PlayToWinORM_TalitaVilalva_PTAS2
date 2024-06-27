@@ -3,11 +3,11 @@ const { DataTypes } = require("sequelize");
 
 const Usuario = conn.define("Usuario", {
     nickname: {
-        type: DataTypes.VARCHAR,
+        type: DataTypes.STRING,
         required: true,
     },
     nome: {
-        type: DataTypes.VARCHAR,
+        type: DataTypes.STRING,
         required: true,
     },
 });
